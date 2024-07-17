@@ -384,7 +384,7 @@ def quantize_4bit_impl(
     return out, state
 
 
-@_maybe_torch_compile
+# @_maybe_torch_compile
 def dequantize_4bit_impl(
     A: Tensor,
     quant_state=None,
@@ -430,7 +430,6 @@ def dequantize_4bit_impl(
             blocksize=blocksize,
             quant_type=quant_type,
         )
-
     else:
         absmax = quant_state.absmax
 
