@@ -502,8 +502,10 @@ class Linear4bit(nn.Linear):
             and self.weight.quant_state.shape[1] % self.weight.quant_state.blocksize == 0
             and self.weight.quant_state.quant_type == "nf4"
         ):
-            if x.device.type == "xpu" or (x.device.type == "cpu" and not self.training and x.requires_grad == False):
-                enable_ipex_fusion(self, x)
+            # if x.device.type == "xpu" or (x.device.type == "cpu" and not self.training and x.requires_grad == False):
+            self.weight.data = reverse_4bit_compress_format(self.weight.data)
+            # if not self.training and x.requires_grad == False:
+            # enable_ipex_fusion(self, x)
 
     def forward(self, x: torch.Tensor):
         # Check if ipex fusion can be used
